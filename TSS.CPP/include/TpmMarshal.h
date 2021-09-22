@@ -49,13 +49,20 @@ private:
 
     bool checkLen(size_t len)
     {
-        if (buf.size() < pos + len)
+        if (outOfBounds)
+        {
+            throw std::runtime_error("Invalid buffer read: Out of bounds");
+        }
+
+        size_t sum = pos + len;
+        if (sum < pos || sum > buf.size())
         {
             outOfBounds = true;
             pos = size();
-            throw std::runtime_error("");
+            throw std::runtime_error("Invalid buffer read: Out of bounds");
             //return false;
         }
+
         return true;
     }
 
